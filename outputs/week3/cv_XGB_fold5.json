@@ -1,0 +1,13 @@
+{
+  "model": "XGB",
+  "fold": 5,
+  "train_trials": 1229,
+  "validation_trials": 307,
+  "train_windows": 23351,
+  "validation_windows": 5833,
+  "fit_seconds": 4.131144999992102,
+  "accuracy": 0.6182067546716955,
+  "precision_macro": 0.6189233467171567,
+  "recall_macro": 0.6185719866467788,
+  "f1_macro": 0.6181759819267951
+}

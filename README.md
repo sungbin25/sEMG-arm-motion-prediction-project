@@ -1,14 +1,17 @@
 # sEMG 손동작·팔꿈치 각도 예측 — Step2
 
-**1주차 데이터 이해·클래스 설계부터 2주차 전처리·특징 추출까지**의 과정과 결과를 정리한 저장소다.
+**1주차 데이터 이해·클래스 설계, 2주차 전처리·특징 추출, 3주차 모델 비교·통계 검정**의 과정과 결과를 정리한 저장소다.
 8명의 5채널 sEMG로 손동작 4종과 팔꿈치 각도 2종을 조합한 8클래스를 구성한다.
-이번 단계의 결과는 모델 학습에 사용할 25차원 특징 데이터셋이다.
+25차원 특징 데이터셋을 구성하고 SVM·Random Forest·XGBoost를 동일한 시행 분할로 비교했다.
 
 ## 주차별 결과보고서
 
 - [1주차 보고서 및 요약](reports/week1/README.md): 데이터 이해와 8클래스 설계.
 - [2주차 최종 결과보고서 PDF](reports/week2/Step2_week2_report_OhSeongbin.pdf): 전처리·특징 추출과 안정성 추가 분석을 포함한 10페이지 보고서.
 - [2주차 실행 노트북](week2_preprocessing.ipynb): 기본 실습의 코드와 실행 결과.
+- [3주차 최종 결과보고서 PDF](reports/week3/Step2_week3_report_OhSeongbin.pdf): 모델 비교·통계 검정·혼동행렬·계산 비용과 한계.
+- [3주차 수정 가능한 Word 보고서](reports/week3/Step2_week3_report_OhSeongbin.docx): 편집용 문서. PDF는 페이지 검수를 완료했으며 DOCX는 렌더러 부재로 페이지 배치를 별도 검증하지 못했다.
+- [3주차 실행 결과 노트북](week3_model_comparison.ipynb) 및 [재현 안내](reports/week3/README.md).
 
 ## 1주차 핵심 결과 요약
 
@@ -165,13 +168,84 @@ git -C data/source checkout cb64ded658b83ae97e6388dd373efad0e97bc47c
 50% 중첩은 시간 해상도를 높이지만 독립 표본 수를 19배로 늘린다는 의미는 아니다.
 해당 설정의 최적성을 비교하는 실험은 수행하지 않았다.
 
-## 3주차에서 이어갈 부분
+## 3주차 모델 비교 결과
+
+2주차 데이터셋과 고정된 강의 파라미터로 세 모델을 학습했다. 테스트 데이터로 설정을 조정하지 않았으며,
+아래 지표는 **윈도우 단위 홀드아웃 결과**다. Precision·Recall·F1은 macro 평균, 단위는 %다.
+
+| 모델 | Accuracy | Precision | Recall | F1 |
+|---|---:|---:|---:|---:|
+| SVM | 49.62 | 50.07 | 49.62 | 49.64 |
+| RF | **65.87** | **66.09** | **65.87** | **65.90** |
+| XGBoost | 64.10 | 64.44 | 64.10 | 64.15 |
+
+RF가 이번 홀드아웃에서 가장 높은 Macro F1을 보였다. 모든 모델에서 같은 각도의 다른 동작으로 오분류한
+건수가 세 오류 범주 중 가장 많았고, 특정 방향에서는 같은 동작의 각도 혼동도 두드러졌다.
+RF의 최다 오분류 방향은 `60_open → 30_open` 110건이었다.
+
+### 학습 데이터 내부 5-fold 교차검증
+
+학습 시행 1,536개를 층화 분할한 뒤 각 시행의 창들을 같은 fold에 배정했다.
+각 모델에 동일한 fold를 적용했고 StandardScaler는 해당 fold의 학습 부분에서만 fit했다.
+표준편차는 강의 코드와 같은 `ddof=0`이며 단위는 %다.
+
+| 모델 | Fold 1 | Fold 2 | Fold 3 | Fold 4 | Fold 5 | 평균 ± 표준편차 |
+|---|---:|---:|---:|---:|---:|---:|
+| SVM | 46.26 | 46.22 | 45.89 | 49.46 | 46.46 | 46.86 ± 1.31 |
+| RF | 61.59 | 63.26 | 63.48 | 63.93 | 64.75 | 63.40 ± 1.04 |
+| XGBoost | 60.83 | 62.08 | 62.11 | 63.00 | 61.82 | 61.97 ± 0.69 |
+
+### 대응표본 t-검정과 해석
+
+| 모델 쌍 | 원 p값 | Holm 보정 p값 |
+|---|---:|---:|
+| SVM / RF | 0.00002049 | 0.00004099 |
+| SVM / XGBoost | 0.000006017 | 0.00001805 |
+| RF / XGBoost | 0.02122 | 0.02122 |
+
+세 쌍 모두 명목 유의수준 0.05에서 차이가 검출되었다. 다만 fold 간 학습 데이터가 겹치고 대응쌍은
+5개뿐이므로 **탐색적인 결과**로 해석한다. Holm 보정은 다중 비교를 다루지만 fold 의존성을 해결하지 않는다.
+강의에서 소개한 논문 RF 96.72 ± 0.58% 및 비유의한 차이와 본 실험의 결과는 다르다.
+분석 구간·특징 정의·교차검증 범위·실행 설정 등의 차이가 가능하며, 원인을 확정하지 않았다.
+
+### 혼동행렬과 계산 비용
+
+![RF 홀드아웃 혼동행렬](outputs/week3/confusion_RF.png)
+
+[SVM 혼동행렬](outputs/week3/confusion_SVM.png) · [XGBoost 혼동행렬](outputs/week3/confusion_XGB.png)
+
+| 모델 | 학습 시간 (s) | 단일 창 평균 추론 (ms) | 배치 추론 (ms/창) |
+|---|---:|---:|---:|
+| SVM | 19.173 | 1.564 | 1.3693 |
+| RF | 2.031 | 12.527 | 0.0051 |
+| XGBoost | 5.370 | 0.734 | 0.0083 |
+
+단일 창 추론은 표준화 포함 Pipeline을 10회 예열한 뒤 동일 창으로 100회 호출해 측정했다.
+RF·XGBoost는 CPU 4개 작업 스레드이며 GPU는 사용하지 않았다. 단일 창 호출과 배치 추론은 다른 지표이고,
+RF의 단일 창 시간에는 병렬 호출 관리 비용 등이 영향을 줄 수 있다. 센서 입력·특징 추출 시간은 제외했다.
+기존 피험자·연속 기록이 분할 양쪽에 존재하므로 새 피험자 일반화, 실제 배포 지연시간 또는 생리적 원인을
+이 결과만으로 주장할 수 없다. [전체 설정·버전](outputs/week3/config.json)과 [수치 원본](outputs/week3/results.json)을 제공한다.
+
+### 3주차 실행
+
+```powershell
+.\.venv\Scripts\python.exe -m pip install -r requirements-week3.txt
+.\.venv\Scripts\python.exe -m unittest -v test_week2 test_week3
+.\.venv\Scripts\python.exe week3.py
+.\.venv\Scripts\python.exe verify_week3.py
+```
+
+완전히 새로 학습하려면 `python week3.py --output outputs/week3_new`를 사용한다.
+기본 출력 폴더에 같은 설정의 fold 결과가 있으면 CV를 재사용하고 최종 홀드아웃 모델은 다시 학습한다.
+추가 실험으로 테스트 결과에 맞춰 파라미터를 조정하지 않는다.
+
+## 교차검증과 데이터 누수 방지
 
 `dataset.npz`의 기본 키는 `Xtr, ytr, Xte, yte`다. 추가로 `Xtr_raw, Xte_raw`,
 `groups_tr, groups_te`, `subjects_tr, subjects_te`, 특징·클래스 이름과 스케일러 통계를 저장한다.
 `np.load(path, allow_pickle=False)`로 안전하게 읽을 수 있다.
 
-SVM·RF·XGBoost 교차검증에는 **Xtr_raw + groups_tr + StratifiedGroupKFold**를 사용하고,
-StandardScaler를 각 fold의 Pipeline 안에서 fit한다. 전체 학습 데이터로 이미 표준화한 Xtr를
+이번 구현은 **Xtr_raw + groups_tr**에서 고유 시행 ID에 StratifiedKFold를 적용한 뒤 창으로 확장하여
+시행 그룹을 보존한다. StandardScaler를 각 fold의 Pipeline 안에서 fit한다. 전체 학습 데이터로 이미 표준화한 Xtr를
 그대로 교차검증에 사용하면 검증 fold의 통계가 섞인다. 테스트 세트는 최종 평가까지 보관한다.
 동일 시행의 중첩 창을 독립 반복 실험으로 간주하거나 창별 점수만으로 유의성을 주장하지 않는다.

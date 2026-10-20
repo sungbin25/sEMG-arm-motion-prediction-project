@@ -1,0 +1,4 @@
+# Optional: regenerate the PDF and editable Word report (Windows fonts required).
+reportlab>=4,<5
+python-docx>=1.1,<2
+pypdfium2>=4,<6

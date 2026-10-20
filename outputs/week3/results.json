@@ -1,0 +1,510 @@
+{
+  "holdout": [
+    {
+      "model": "SVM",
+      "accuracy": 0.4961622807017544,
+      "precision_macro": 0.5007359014400259,
+      "recall_macro": 0.4961622807017544,
+      "f1_macro": 0.49644665557837386,
+      "fit_seconds": 19.173016000015195,
+      "single_sample_mean_ms": 1.5635720011778176,
+      "single_sample_median_ms": 1.5242999943438917,
+      "single_sample_p95_ms": 1.796710045891814,
+      "batch_seconds": 9.99017730000196,
+      "batch_ms_per_window": 1.3692677220397425
+    },
+    {
+      "model": "RF",
+      "accuracy": 0.6587171052631579,
+      "precision_macro": 0.6609362844090646,
+      "recall_macro": 0.6587171052631579,
+      "f1_macro": 0.6590333991168406,
+      "fit_seconds": 2.0309445000020787,
+      "single_sample_mean_ms": 12.52741299860645,
+      "single_sample_median_ms": 12.526349979452789,
+      "single_sample_p95_ms": 12.886264981352724,
+      "batch_seconds": 0.03753460000734776,
+      "batch_ms_per_window": 0.0051445449571474455
+    },
+    {
+      "model": "XGB",
+      "accuracy": 0.6410361842105263,
+      "precision_macro": 0.6444002033139564,
+      "recall_macro": 0.6410361842105263,
+      "f1_macro": 0.6415115489359795,
+      "fit_seconds": 5.369771099998616,
+      "single_sample_mean_ms": 0.7344229996670038,
+      "single_sample_median_ms": 0.7017999887466431,
+      "single_sample_p95_ms": 1.0061150300316513,
+      "batch_seconds": 0.06060939998133108,
+      "batch_ms_per_window": 0.008307209427265774
+    }
+  ],
+  "cv": [
+    {
+      "model": "SVM",
+      "accuracy_mean": 0.4685825831977041,
+      "accuracy_std": 0.01313445683007699,
+      "f1_macro_mean": 0.46927855498674403,
+      "f1_macro_std": 0.013217833645386656
+    },
+    {
+      "model": "RF",
+      "accuracy_mean": 0.6340236139653249,
+      "accuracy_std": 0.010417875926899455,
+      "f1_macro_mean": 0.633815302490168,
+      "f1_macro_std": 0.010746944672591309
+    },
+    {
+      "model": "XGB",
+      "accuracy_mean": 0.6196962646474047,
+      "accuracy_std": 0.006947185454032032,
+      "f1_macro_mean": 0.6197655216669237,
+      "f1_macro_std": 0.006849518184244801
+    }
+  ],
+  "paired_tests": [
+    {
+      "model_a": "SVM",
+      "model_b": "RF",
+      "n_pairs": 5,
+      "mean_accuracy_difference": -0.16544103076762084,
+      "t": -23.189378355438677,
+      "p_raw": 2.0494144802563986e-05,
+      "p_holm": 4.098828960512797e-05
+    },
+    {
+      "model_a": "SVM",
+      "model_b": "XGB",
+      "n_pairs": 5,
+      "mean_accuracy_difference": -0.15111368144970064,
+      "t": -31.547927675747882,
+      "p_raw": 6.01678427273783e-06,
+      "p_holm": 1.8050352818213493e-05
+    },
+    {
+      "model_a": "RF",
+      "model_b": "XGB",
+      "n_pairs": 5,
+      "mean_accuracy_difference": 0.014327349317920212,
+      "t": 3.6789324248089468,
+      "p_raw": 0.021223851863383342,
+      "p_holm": 0.021223851863383342
+    }
+  ],
+  "errors": {
+    "SVM": {
+      "confusion": [
+        [
+          528,
+          38,
+          66,
+          36,
+          119,
+          45,
+          37,
+          43
+        ],
+        [
+          49,
+          471,
+          54,
+          81,
+          22,
+          110,
+          60,
+          65
+        ],
+        [
+          40,
+          76,
+          426,
+          144,
+          39,
+          29,
+          104,
+          54
+        ],
+        [
+          23,
+          68,
+          83,
+          456,
+          11,
+          54,
+          68,
+          149
+        ],
+        [
+          93,
+          39,
+          102,
+          89,
+          356,
+          63,
+          85,
+          85
+        ],
+        [
+          50,
+          130,
+          20,
+          51,
+          33,
+          480,
+          75,
+          73
+        ],
+        [
+          24,
+          54,
+          144,
+          51,
+          58,
+          55,
+          417,
+          109
+        ],
+        [
+          22,
+          49,
+          62,
+          118,
+          42,
+          56,
+          77,
+          486
+        ]
+      ],
+      "class_recall": [
+        0.5789473684210527,
+        0.5164473684210527,
+        0.46710526315789475,
+        0.5,
+        0.39035087719298245,
+        0.5263157894736842,
+        0.45723684210526316,
+        0.5328947368421053
+      ],
+      "error_types": {
+        "same_gesture_wrong_angle": 967,
+        "same_angle_wrong_gesture": 1569,
+        "both_wrong": 1140
+      },
+      "errors": 3676,
+      "top_errors": [
+        {
+          "actual": "30_supination",
+          "predicted": "60_supination",
+          "count": 149
+        },
+        {
+          "actual": "30_pronation",
+          "predicted": "30_supination",
+          "count": 144
+        },
+        {
+          "actual": "60_pronation",
+          "predicted": "30_pronation",
+          "count": 144
+        },
+        {
+          "actual": "60_open",
+          "predicted": "30_open",
+          "count": 130
+        },
+        {
+          "actual": "30_fist",
+          "predicted": "60_fist",
+          "count": 119
+        }
+      ],
+      "best_classes": [
+        "30_fist"
+      ],
+      "worst_classes": [
+        "60_fist"
+      ]
+    },
+    "RF": {
+      "confusion": [
+        [
+          640,
+          37,
+          42,
+          17,
+          102,
+          25,
+          27,
+          22
+        ],
+        [
+          38,
+          609,
+          51,
+          25,
+          21,
+          89,
+          45,
+          34
+        ],
+        [
+          18,
+          51,
+          623,
+          40,
+          36,
+          19,
+          78,
+          47
+        ],
+        [
+          24,
+          40,
+          85,
+          569,
+          38,
+          34,
+          48,
+          74
+        ],
+        [
+          85,
+          40,
+          55,
+          39,
+          563,
+          42,
+          33,
+          55
+        ],
+        [
+          19,
+          110,
+          23,
+          23,
+          26,
+          603,
+          71,
+          37
+        ],
+        [
+          29,
+          48,
+          91,
+          23,
+          30,
+          36,
+          598,
+          57
+        ],
+        [
+          14,
+          39,
+          48,
+          81,
+          33,
+          44,
+          52,
+          601
+        ]
+      ],
+      "class_recall": [
+        0.7017543859649122,
+        0.6677631578947368,
+        0.6831140350877193,
+        0.6239035087719298,
+        0.6173245614035088,
+        0.6611842105263158,
+        0.6557017543859649,
+        0.6589912280701754
+      ],
+      "error_types": {
+        "same_gesture_wrong_angle": 710,
+        "same_angle_wrong_gesture": 984,
+        "both_wrong": 796
+      },
+      "errors": 2490,
+      "top_errors": [
+        {
+          "actual": "60_open",
+          "predicted": "30_open",
+          "count": 110
+        },
+        {
+          "actual": "30_fist",
+          "predicted": "60_fist",
+          "count": 102
+        },
+        {
+          "actual": "60_pronation",
+          "predicted": "30_pronation",
+          "count": 91
+        },
+        {
+          "actual": "30_open",
+          "predicted": "60_open",
+          "count": 89
+        },
+        {
+          "actual": "30_supination",
+          "predicted": "30_pronation",
+          "count": 85
+        }
+      ],
+      "best_classes": [
+        "30_fist"
+      ],
+      "worst_classes": [
+        "60_fist"
+      ]
+    },
+    "XGB": {
+      "confusion": [
+        [
+          617,
+          50,
+          40,
+          13,
+          109,
+          25,
+          26,
+          32
+        ],
+        [
+          26,
+          631,
+          41,
+          28,
+          30,
+          92,
+          38,
+          26
+        ],
+        [
+          17,
+          59,
+          600,
+          49,
+          36,
+          14,
+          85,
+          52
+        ],
+        [
+          13,
+          54,
+          91,
+          538,
+          40,
+          42,
+          33,
+          101
+        ],
+        [
+          74,
+          34,
+          59,
+          44,
+          565,
+          46,
+          46,
+          44
+        ],
+        [
+          20,
+          111,
+          22,
+          35,
+          35,
+          597,
+          52,
+          40
+        ],
+        [
+          22,
+          55,
+          108,
+          18,
+          53,
+          47,
+          550,
+          59
+        ],
+        [
+          20,
+          43,
+          56,
+          83,
+          38,
+          39,
+          54,
+          579
+        ]
+      ],
+      "class_recall": [
+        0.6765350877192983,
+        0.6918859649122807,
+        0.6578947368421053,
+        0.5899122807017544,
+        0.6195175438596491,
+        0.6546052631578947,
+        0.6030701754385965,
+        0.6348684210526315
+      ],
+      "error_types": {
+        "same_gesture_wrong_angle": 763,
+        "same_angle_wrong_gesture": 1034,
+        "both_wrong": 822
+      },
+      "errors": 2619,
+      "top_errors": [
+        {
+          "actual": "60_open",
+          "predicted": "30_open",
+          "count": 111
+        },
+        {
+          "actual": "30_fist",
+          "predicted": "60_fist",
+          "count": 109
+        },
+        {
+          "actual": "60_pronation",
+          "predicted": "30_pronation",
+          "count": 108
+        },
+        {
+          "actual": "30_supination",
+          "predicted": "60_supination",
+          "count": 101
+        },
+        {
+          "actual": "30_open",
+          "predicted": "60_open",
+          "count": 92
+        }
+      ],
+      "best_classes": [
+        "30_open"
+      ],
+      "worst_classes": [
+        "30_supination"
+      ]
+    }
+  },
+  "class_names": [
+    "30_fist",
+    "30_open",
+    "30_pronation",
+    "30_supination",
+    "60_fist",
+    "60_open",
+    "60_pronation",
+    "60_supination"
+  ],
+  "cv_train_only": true,
+  "overlapping_holdout_trial_ids": 0,
+  "cv_validation_trial_count": 1536,
+  "report_note": "Fold scores have dependent training sets; paired t-tests are exploratory, not definitive inference."
+}

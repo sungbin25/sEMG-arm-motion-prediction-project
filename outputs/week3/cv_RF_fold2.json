@@ -1,0 +1,13 @@
+{
+  "model": "RF",
+  "fold": 2,
+  "train_trials": 1229,
+  "validation_trials": 307,
+  "train_windows": 23351,
+  "validation_windows": 5833,
+  "fit_seconds": 2.049388200044632,
+  "accuracy": 0.6326075775758615,
+  "precision_macro": 0.6327325836081409,
+  "recall_macro": 0.6323780098018326,
+  "f1_macro": 0.6321843883913776
+}

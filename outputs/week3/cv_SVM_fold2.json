@@ -1,0 +1,13 @@
+{
+  "model": "SVM",
+  "fold": 2,
+  "train_trials": 1229,
+  "validation_trials": 307,
+  "train_windows": 23351,
+  "validation_windows": 5833,
+  "fit_seconds": 15.49032600002829,
+  "accuracy": 0.4621978398765644,
+  "precision_macro": 0.46948518897224273,
+  "recall_macro": 0.46219990766389657,
+  "f1_macro": 0.46271402880884394
+}
