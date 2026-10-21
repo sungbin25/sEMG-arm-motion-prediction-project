@@ -1,12 +1,13 @@
-# AI 모델 재현 및 성능 비교 보완 보고서
+# AI 모델 재현 및 성능 비교
 
-[편집용 Word](Step2_final_revised_with_LOSO_OhSeongbin.docx) · [PDF](Step2_final_revised_with_LOSO_OhSeongbin.pdf)
+[최종 보고서 PDF](Step2_final_revised_with_LOSO_OhSeongbin.pdf) · [편집용 Word](Step2_final_revised_with_LOSO_OhSeongbin.docx)
 
-## AI 모델 재현 및 성능 비교
+[1주차](../week1/README.md) · [2주차](../week2/Step2_week2_report_OhSeongbin.pdf) · [3주차](../week3/README.md) · [LOSO 실험 파일](../../outputs/loso/README.md)
+
 
 ## sEMG 손동작과 팔꿈치 각도 분류
 
-오성빈  |  1~3주차 종합 결과와 LOSO 추가 실험
+오성빈
 
 8명의 5채널 근전도에서 손동작 4종과 팔꿈치 각도 2종을 조합한 8클래스를 예측했다. 동일한 특징과 시행 분할에서 SVM, Random Forest, XGBoost를 비교하고, 저장된 예측의 시행별 집계와 피험자 제외 평가로 결과의 적용 범위를 확인했다.
 
@@ -25,12 +26,6 @@
 ### 보고서 구성
 
 1 코드 설명에서는 데이터 흐름과 실제 실행 절차를, 2 모델 성능 비교에서는 평가 방식과 비용을, 3 Confusion Matrix 분석에서는 오류의 위치와 비중을 설명한다. 4 최종 결과에서 확인한 사실과 한계를 연결한 뒤 LOSO 실험 보고서 8쪽 전체를 이어 수록한다.
-
-### 작성 형식 참고
-
-Oseojin의 DCU_DeepLearningProgramming_SEMG README에서 결과 요약, 평가 조건 구분, 오류의 수량화, 근거와 추정의 분리 방식을 참고했다. 해당 저장소의 사용자 식별 과제와 이번 손동작 및 각도 과제는 다르므로 타인의 모델 설정과 성능을 이번 실험 결과로 가져오지 않았다.
-
-https://github.com/Oseojin/DCU_DeepLearningProgramming_SEMG
 
 ## 1 코드 설명
 
@@ -68,19 +63,15 @@ https://github.com/Oseojin/DCU_DeepLearningProgramming_SEMG
 
 ### 실행 방법
 
+```bash
 git clone https://github.com/TestUser-alt-dev/sEMG-Hand-Gesture-Elbow-Angle-Dataset data/source
-
 python -m pip install -r requirements-week3.txt
-
 python week2.py
-
 python analyze_stability.py
-
 python week3.py
-
 python -m unittest -v test_week2 test_week3
-
 python verify_week3.py
+```
 
 프로젝트 루트에서 실행한다. 원자료는 data/source/data에 둔다. 기존 결과가 있는 경우 검증 명령으로 저장된 예측과 지표를 확인할 수 있다.
 
@@ -189,7 +180,7 @@ RF의 높은 점수를 보고 새로운 설정을 탐색하거나 별도의 최�
 
 ### SVM
 
-![실험 결과](../../outputs/week3/confusion_SVM.png)
+![실험 결과 1](images/figure_1.png)
 
 행은 실제 클래스, 열은 예측 클래스다. 30과 60은 각도, fist는 주먹 쥐기, open은 손 펴기, pronation은 회내, supination은 회외다.
 
@@ -207,7 +198,7 @@ RF의 높은 점수를 보고 새로운 설정을 탐색하거나 별도의 최�
 
 ### Random Forest
 
-![실험 결과](../../outputs/week3/confusion_RF.png)
+![실험 결과 2](images/figure_2.png)
 
 행은 실제 클래스, 열은 예측 클래스다. 30과 60은 각도, fist는 주먹 쥐기, open은 손 펴기, pronation은 회내, supination은 회외다.
 
@@ -225,7 +216,7 @@ RF의 높은 점수를 보고 새로운 설정을 탐색하거나 별도의 최�
 
 ### XGBoost
 
-![실험 결과](../../outputs/week3/confusion_XGB.png)
+![실험 결과 3](images/figure_3.png)
 
 행은 실제 클래스, 열은 예측 클래스다. 30과 60은 각도, fist는 주먹 쥐기, open은 손 펴기, pronation은 회내, supination은 회외다.
 
@@ -327,15 +318,11 @@ RF에서 60_open → 30_open 110건, 30_fist → 60_fist 102건, 60_pronation �
 
 ### 이어지는 추가 실험
 
-다음 페이지부터는 기존의 LOSO 실험 결과보고서 전체를 수록한다. 1~3주차 기존 평가와 구분하여 피험자 분할, 24회 학습, 결과 검증, 오류 해석과 후속 다수결을 제시한다. 원본 1~3주차 보고서와 별도 LOSO 보고서 파일은 보존했다.
-
-근거: 사용자가 제공한 Step2_week1_report_OhSeongbin.pdf 7쪽, Step2_week2_report_OhSeongbin.pdf 10쪽, Step2_week3_report_OhSeongbin.pdf 7쪽 및 저장된 실험 결과. 원자료와 재현 경로는 프로젝트 README 및 후첨 보고서 부록에 기재했다. 작성 구조 참고: https://github.com/Oseojin/DCU_DeepLearningProgramming_SEMG . 수치와 해석은 이번 프로젝트 자료에서 산출했다.
+다음 페이지부터는 기존의 LOSO 실험 결과보고서 전체를 수록한다. 1~3주차 기존 평가와 구분하여 피험자 분할, 24회 학습, 결과 검증, 오류 해석과 후속 다수결을 제시한다.
 
 ## sEMG LOSO 실험 결과보고서
 
 ## 개인별 신호 차이와 새 피험자 일반화 평가
-
-오성빈  |  실험 기록 2026년 10월 21일
 
 ## 1 실험 목적과 핵심 결과
 
@@ -454,11 +441,11 @@ LOSO 창 정확도에서 XGB 21.63%와 RF 21.59%의 차이는 약 0.04pp다. 이
 
 행은 실제, 열은 예측이다. 각 칸은 건수와 행 기준 비율이다. 전체 LOSO 기준이며 실제 손동작별 9,120창, 실제 각도별 18,240창이다.
 
-![실험 결과](../../outputs/final/semantic_SVM.png)
+![실험 결과 4](images/figure_4.png)
 
-![실험 결과](../../outputs/final/semantic_RF.png)
+![실험 결과 5](images/figure_5.png)
 
-![실험 결과](../../outputs/final/semantic_XGB.png)
+![실험 결과 6](images/figure_6.png)
 
 ## 6 오류 해석과 추가 발견
 
@@ -532,19 +519,15 @@ LOSO 전체의 동률 시행은 SVM 241개, RF 281개, XGB 262개였다. 고정 
 
 ### 프로젝트 루트에서의 실행 순서
 
+```bash
 python -m pip install -r requirements-week3.txt
-
 python week2.py
-
 python week3.py
-
 python experiment_loso.py
-
 python verify_loso.py
-
 python analyze_final.py
-
 python verify_final.py
+```
 
 원자료는 프로젝트 README의 다운로드 절차에 따라 data/source/data에 둔다. 기존 결과가 있으면 처음부터 재학습할 필요 없이 저장된 결과를 검증할 수 있다. 보고서 생성은 requirements-report.txt를 설치하고 python build_loso_report.py를 실행한다.
 
