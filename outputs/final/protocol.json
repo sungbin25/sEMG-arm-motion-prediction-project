@@ -1,0 +1,18 @@
+{
+  "vote": "Joint 8-class plurality of exactly 19 windows; tie: smallest fixed class index",
+  "class_order": [
+    "30_fist",
+    "30_open",
+    "30_pronation",
+    "30_supination",
+    "60_fist",
+    "60_open",
+    "60_pronation",
+    "60_supination"
+  ],
+  "selection": "No tuning; all existing predictions included",
+  "sources": {
+    "outputs/week3/holdout_predictions.csv": "41972bb907fc1f778d44a479110482303910af99947d3b0aa66742b632043ec7",
+    "outputs/loso/predictions.csv": "585c9900447582676ee29c58e11ee240d21275c882edad46aca61b38ec665ed9"
+  }
+}

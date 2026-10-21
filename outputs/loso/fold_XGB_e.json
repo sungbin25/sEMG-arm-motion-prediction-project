@@ -1,0 +1,18 @@
+{
+  "model": "XGB",
+  "subject": "e",
+  "train_windows": 31920,
+  "test_windows": 4560,
+  "fit_seconds": 4.820289299997967,
+  "n": 4560,
+  "both_correct": 954,
+  "gesture_correct_angle_wrong": 961,
+  "angle_correct_gesture_wrong": 1362,
+  "both_wrong": 1283,
+  "gesture_accuracy": 0.4199561403508772,
+  "angle_accuracy": 0.5078947368421053,
+  "accuracy": 0.20921052631578949,
+  "precision_macro": 0.21892407195819213,
+  "recall_macro": 0.20921052631578946,
+  "f1_macro": 0.2021521776588929
+}

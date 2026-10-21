@@ -1,0 +1,18 @@
+{
+  "model": "RF",
+  "subject": "f",
+  "train_windows": 31920,
+  "test_windows": 4560,
+  "fit_seconds": 2.136997599969618,
+  "n": 4560,
+  "both_correct": 1289,
+  "gesture_correct_angle_wrong": 1197,
+  "angle_correct_gesture_wrong": 959,
+  "both_wrong": 1115,
+  "gesture_accuracy": 0.5451754385964912,
+  "angle_accuracy": 0.49298245614035086,
+  "accuracy": 0.28267543859649125,
+  "precision_macro": 0.30935185892474426,
+  "recall_macro": 0.28267543859649125,
+  "f1_macro": 0.26522933243780233
+}

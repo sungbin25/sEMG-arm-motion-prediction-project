@@ -1,0 +1,21 @@
+{
+  "date": "2026-10-21",
+  "dataset_sha256": "b4217af8541d3fd87937dde9d50cba84c214d91eec9e744c1e3431f3c9f8dd4e",
+  "input": "Unscaled week2 features; original train and test combined for a distinct exploratory protocol",
+  "evaluation": "8 LOSO folds; 7 subjects train, 1 held out; scaler fit only on training subjects",
+  "n_windows": 36480,
+  "n_trials": 1920,
+  "windows_per_subject": 4560,
+  "parameters": "Identical to week3.models(4); no tuning or segment changes",
+  "week3_code_sha256": "fa7f30965415de2c894430b42d55aed4490a80b7c472ccead9997452f28920bf",
+  "original_test_comparison": "Also compare LOSO vs existing holdout on the exact same 7296 windows",
+  "limitations": "Not independent confirmation after previous data exploration; training size differs. Subject and recording effects are confounded. No new sensor measurements.",
+  "versions": {
+    "numpy": "2.5.3",
+    "pandas": "3.0.5",
+    "scipy": "1.18.1",
+    "scikit-learn": "1.9.1",
+    "xgboost": "3.4.1",
+    "matplotlib": "3.11.2"
+  }
+}

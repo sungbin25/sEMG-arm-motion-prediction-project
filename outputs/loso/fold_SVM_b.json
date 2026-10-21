@@ -1,0 +1,18 @@
+{
+  "model": "SVM",
+  "subject": "b",
+  "train_windows": 31920,
+  "test_windows": 4560,
+  "fit_seconds": 19.4810381999705,
+  "n": 4560,
+  "both_correct": 810,
+  "gesture_correct_angle_wrong": 795,
+  "angle_correct_gesture_wrong": 1414,
+  "both_wrong": 1541,
+  "gesture_accuracy": 0.3519736842105263,
+  "angle_accuracy": 0.48771929824561405,
+  "accuracy": 0.17763157894736842,
+  "precision_macro": 0.1825509660306323,
+  "recall_macro": 0.17763157894736842,
+  "f1_macro": 0.163913648400408
+}
